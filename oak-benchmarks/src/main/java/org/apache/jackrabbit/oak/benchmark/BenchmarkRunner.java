@@ -145,6 +145,9 @@ public class BenchmarkRunner {
         OptionSpec<Boolean> randomUser = parser.accepts("randomUser", "Whether to use a random user to read.")
                 .withOptionalArg().ofType(Boolean.class)
                 .defaultsTo(Boolean.FALSE);
+        OptionSpec<String> consoleFormat = parser.accepts("consoleFormat", "Format of console output. Possible values are 'prettyprint' and 'machine-readable'")
+                .withOptionalArg().ofType(String.class)
+                .defaultsTo("prettyprint");
         OptionSpec<File> csvFile = parser.accepts("csvFile", "File to write a CSV version of the benchmark data.")
                 .withOptionalArg().ofType(File.class);
         OptionSpec<Boolean> flatStructure = parser.accepts("flatStructure", "Whether the test should use a flat structure or not.")
@@ -523,6 +526,14 @@ public class BenchmarkRunner {
                 out = new PrintStream(FileUtils.openOutputStream(csvFile.value(options), true));
             }
             for (Benchmark benchmark : benchmarks) {
+                if (benchmark instanceof AbstractTest) {
+                    if (consoleFormat.value(options).equalsIgnoreCase("prettyprint")) {
+                        ((AbstractTest) benchmark).setOutputStrategy(new PrettyPrintConsoleStrategy((AbstractTest) benchmark));
+                    } else if (consoleFormat.value(options).equalsIgnoreCase("machine-readable")){
+                        ((AbstractTest) benchmark).setOutputStrategy(new MachineReadableConsoleStrategy((AbstractTest) benchmark));
+                    }
+                    //TODO: put output setter for each benchmark here
+                }
                 if (benchmark instanceof CSVResultGenerator) {
                     ((CSVResultGenerator) benchmark).setPrintStream(out);
                 }

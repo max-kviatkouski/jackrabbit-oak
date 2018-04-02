@@ -33,6 +33,7 @@ The following benchmark options (with default values) are currently supported:
     --itemsToRead 1000     - Number of items to read
     --report false         - Whether to output intermediate results
     --csvFile <file>       - Optional csv file to report the benchmark results
+    --consoleFormat        - Console output format. Possible values: 'machine-readable', 'prettyprint'. Defaults to 'prettyprint'
     --concurrency <levels> - Comma separated list of concurrency levels
     --metrics false        - Enable metrics based stats collection
     --rdbjdbcuri           - JDBC URL for RDB persistence (defaults to local file-based H2)

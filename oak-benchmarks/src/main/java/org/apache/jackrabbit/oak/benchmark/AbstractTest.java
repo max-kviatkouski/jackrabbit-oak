@@ -91,10 +91,11 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
 
     private Profiler profiler;
 
-    private PrintStream out;
-    
     private RepositoryFixture currentFixture;
-    
+
+    private BenchmarkOutputStrategy outputStrategy = new PrettyPrintConsoleStrategy(this);
+    private BenchmarkOutputStrategy csvStrategy = null;
+
     /**
      * <p>
      * used to signal the {@link #runTest(int)} if stop running future test planned or not. If set
@@ -143,10 +144,12 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
      */
     protected void issueHaltChildThreads() {
     }
-    
+
     @Override
     public void setPrintStream(PrintStream out) {
-        this.out = out;
+        if (out != null) {
+            this.csvStrategy = new CsvOutputStrategy(this, out);
+        }
     }
 
     protected static int getScale(int def) {
@@ -188,13 +191,9 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
 
     @Override
     public void run(Iterable<RepositoryFixture> fixtures, List<Integer> concurrencyLevels) {
-        System.out.format(
-                "# %-26.26s       C     min     10%%     50%%     90%%     max       N%s%n",
-                toString(), statsNamesJoined(false));
-        if (out != null) {
-            out.format(
-                    "# %-26.26s,      C,    min,    10%%,    50%%,    90%%,    max,      N%s%n",
-                    toString(), statsNamesJoined(true));
+        outputStrategy.printHeader();
+        if (this.csvStrategy != null) {
+            csvStrategy.printHeader();
         }
         for (RepositoryFixture fixture : fixtures) {
             currentFixture = fixture;
@@ -252,13 +251,9 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
                     statsArg = ArrayUtils.add(statsArg, comment);
                 }
                 if (statistics.getN() > 0) {
-                    System.out.format(
-                            "%-28.28s  %6d  %6.0f  %6.0f  %6.0f  %6.0f  %6.0f  %6d"+statsFormatsJoined(false)+"%n",
-                            statsArg);
-                    if (out != null) {
-                        out.format(
-                                "%-28.28s, %6d, %6.0f, %6.0f, %6.0f, %6.0f, %6.0f, %6d"+statsFormatsJoined(false)+"%n",
-                                statsArg);
+                    outputStrategy.printStats(statsArg);
+                    if (this.csvStrategy != null) {
+                        this.csvStrategy.printStats(statsArg);
                     }
                 }
 
@@ -266,26 +261,6 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
         } finally {
             tearDown();
         }
-    }
-
-    private String statsFormatsJoined(boolean commaSeparated) {
-        String comment = comment();
-        String[] formatPattern = statsFormats();
-        if (comment != null){
-            String commentPattern = commaSeparated ? "#%s" : "    #%s";
-            formatPattern = (String[])ArrayUtils.add(formatPattern, commentPattern);
-        }
-        Joiner joiner = commaSeparated ? Joiner.on(',') : Joiner.on("  ");
-        return joiner.join(formatPattern);
-    }
-
-    private String statsNamesJoined(boolean commaSeparated) {
-        Joiner joiner = commaSeparated ? Joiner.on(',') : Joiner.on("  ");
-        String names = joiner.join(statsNames());
-        if (!commaSeparated) {
-            names =  " " + names;
-        }
-        return names;
     }
 
     private class Executor extends Thread {
@@ -428,6 +403,10 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
         this.sessions = null;
         this.credentials = null;
         this.repository = null;
+    }
+
+    public void setOutputStrategy(BenchmarkOutputStrategy outputStrategy) {
+        this.outputStrategy = outputStrategy;
     }
 
     /**
