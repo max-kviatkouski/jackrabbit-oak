@@ -46,7 +46,6 @@ public class ReadDeepTreeTest extends AbstractTest {
 
     protected final boolean runAsAdmin;
     protected final int itemsToRead;
-    protected final boolean doReport;
 
     protected final boolean singleSession;
 
