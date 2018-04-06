@@ -41,8 +41,8 @@ public class ConcurrentHasPermissionTest2 extends ConcurrentHasPermissionTest {
     int counter = 0;
     final List<Principal> principals = new ArrayList<Principal>();
 
-    public ConcurrentHasPermissionTest2(boolean runAsAdmin, int itemsToRead, boolean doReport) {
-        super(runAsAdmin, itemsToRead, doReport);
+    public ConcurrentHasPermissionTest2(boolean runAsAdmin, int itemsToRead) {
+        super(runAsAdmin, itemsToRead);
     }
 
     @Override

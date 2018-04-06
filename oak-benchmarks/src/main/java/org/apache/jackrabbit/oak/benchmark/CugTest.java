@@ -46,7 +46,7 @@ public class CugTest extends ReadDeepTreeTest {
     private final boolean reverseOrder;
 
     protected CugTest(boolean runAsAdmin, int itemsToRead, boolean singleSession, @Nonnull List<String> supportedPaths, boolean reverseOrder) {
-        super(runAsAdmin, itemsToRead, false, singleSession);
+        super(runAsAdmin, itemsToRead, singleSession);
         this.params = ConfigurationParameters.of(AuthorizationConfiguration.NAME, ConfigurationParameters.of(
                     "cugSupportedPaths", supportedPaths.toArray(new String[supportedPaths.size()]),
                     "cugEnabled", true));

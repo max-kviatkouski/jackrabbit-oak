@@ -36,6 +36,8 @@ import org.apache.jackrabbit.oak.fixture.RepositoryFixture;
 import org.apache.jackrabbit.oak.jcr.Jcr;
 import org.apache.jackrabbit.oak.plugins.tree.TreeLocation;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * Test the effect of multiple authorization configurations on the general read
  * operations.
@@ -125,9 +127,7 @@ public class CugOakTest extends CugTest {
                 }
             }
             long end = System.currentTimeMillis();
-            if (doReport) {
-                System.out.println("ContentSession " + cs.getAuthInfo().getUserID() + " reading " + (itemsToRead - noAccess) + " (Tree: " + nodeCnt + "; PropertyState: " + propertyCnt + ") completed in " + (end - start));
-            }
+            println_verbose("ContentSession " + cs.getAuthInfo().getUserID() + " reading " + (itemsToRead - noAccess) + " (Tree: " + nodeCnt + "; PropertyState: " + propertyCnt + ") completed in " + (end - start));
         } finally {
             if (logout) {
                 readSession.close();

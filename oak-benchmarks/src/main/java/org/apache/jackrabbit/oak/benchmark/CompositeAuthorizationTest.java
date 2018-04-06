@@ -70,7 +70,7 @@ public class CompositeAuthorizationTest extends ReadDeepTreeTest {
     private int cnt;
 
     protected CompositeAuthorizationTest(boolean runAsAdmin, int cntConfigurations) {
-        super(runAsAdmin, 1000, false);
+        super(runAsAdmin, 1000);
         cnt =  cntConfigurations;
     }
 

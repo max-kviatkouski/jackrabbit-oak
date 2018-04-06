@@ -38,8 +38,8 @@ public class ConcurrentReadAccessControlledTreeTest2 extends ConcurrentReadDeepT
     int counter = 0;
     final List<Principal> principals = new ArrayList<Principal>();
 
-    public ConcurrentReadAccessControlledTreeTest2(boolean runAsAdmin, int itemsToRead, boolean doReport) {
-        super(runAsAdmin, itemsToRead, doReport);
+    public ConcurrentReadAccessControlledTreeTest2(boolean runAsAdmin, int itemsToRead) {
+        super(runAsAdmin, itemsToRead);
     }
 
     @Override

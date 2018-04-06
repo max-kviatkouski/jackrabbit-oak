@@ -22,6 +22,8 @@ import javax.jcr.Session;
 
 import com.google.common.collect.ImmutableList;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * Concurrently calls Session#hasPermission on the deep tree:
  * - the path argument a random path out of the deep tree
@@ -42,8 +44,8 @@ public class ConcurrentHasPermissionTest extends ConcurrentReadDeepTreeTest {
             Session.ACTION_READ + "," + Session.ACTION_SET_PROPERTY
     );
 
-    protected ConcurrentHasPermissionTest(boolean runAsAdmin, int itemsToRead, boolean doReport) {
-        super(runAsAdmin, itemsToRead, doReport);
+    protected ConcurrentHasPermissionTest(boolean runAsAdmin, int itemsToRead) {
+        super(runAsAdmin, itemsToRead);
     }
 
     protected void randomRead(Session testSession, List<String> allPaths, int cnt) throws RepositoryException {
@@ -70,9 +72,7 @@ public class ConcurrentHasPermissionTest extends ConcurrentReadDeepTreeTest {
                 }
             }
             long end = System.currentTimeMillis();
-            if (doReport) {
-                System.out.println("Session " + testSession.getUserID() + " calling #hasPermission (Allows: "+ allows +"; Denies: "+ denies +") completed in " + (end - start));
-            }
+            println_verbose("Session " + testSession.getUserID() + " calling #hasPermission (Allows: "+ allows +"; Denies: "+ denies +") completed in " + (end - start));
         } finally {
             if (logout) {
                 logout(testSession);

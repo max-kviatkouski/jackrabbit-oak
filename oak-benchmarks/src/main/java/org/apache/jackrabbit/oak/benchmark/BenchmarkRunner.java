@@ -331,8 +331,8 @@ public class BenchmarkRunner {
             new FlatTreeWithAceForSamePrincipalTest(),
             new ReadDeepTreeTest(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new CompositeAuthorizationTest(
                         runAsAdmin.value(options),
                         itemsToRead.value(options)), // NOTE: this is currently the no of configurations
@@ -348,46 +348,43 @@ public class BenchmarkRunner {
                         reverseOrder.value(options)),
             new ConcurrentReadDeepTreeTest(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new ConcurrentReadSinglePolicyTreeTest(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new ConcurrentReadAccessControlledTreeTest(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new ConcurrentReadAccessControlledTreeTest2(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new ConcurrentReadRandomNodeAndItsPropertiesTest(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new ConcurrentHasPermissionTest(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new ConcurrentHasPermissionTest2(
                     runAsAdmin.value(options),
-                    itemsToRead.value(options),
-                    report.value(options)),
+                    itemsToRead.value(options)
+            ),
             new ManyUserReadTest(
                     runAsAdmin.value(options),
                     itemsToRead.value(options),
-                    report.value(options),
                     randomUser.value(options)),
             new ReadWithMembershipTest(
                     itemsToRead.value(options),
-                    report.value(options),
                     numberOfGroups.value(options),
                     numberOfInitialAce.value(options)),
             new ConcurrentTraversalTest(
                     runAsAdmin.value(options),
                     itemsToRead.value(options),
-                    report.value(options),
                     randomUser.value(options)),
             new ConcurrentWriteACLTest(itemsToRead.value(options)),
             new ConcurrentEveryoneACLTest(runAsAdmin.value(options), itemsToRead.value(options)),

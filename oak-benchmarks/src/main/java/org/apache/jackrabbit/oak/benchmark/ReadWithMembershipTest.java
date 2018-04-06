@@ -47,8 +47,8 @@ public class ReadWithMembershipTest extends ReadDeepTreeTest {
     private final int membershipSize;
     private final int numberOfAces;
 
-    protected ReadWithMembershipTest(int itemsToRead, boolean doReport, int membershipSize, int numberOfAces) {
-        super(false, itemsToRead, doReport, false);
+    protected ReadWithMembershipTest(int itemsToRead, int membershipSize, int numberOfAces) {
+        super(false, itemsToRead, false);
         userId = "user-" + UUID.randomUUID();
         this.membershipSize = membershipSize;
         this.numberOfAces = numberOfAces;

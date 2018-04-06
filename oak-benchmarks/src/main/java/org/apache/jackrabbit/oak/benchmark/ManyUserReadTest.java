@@ -28,6 +28,8 @@ import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.jackrabbit.commons.jackrabbit.authorization.AccessControlUtils;
 import org.apache.jackrabbit.oak.spi.security.principal.EveryonePrincipal;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * UserTest... TODO
  */
@@ -37,8 +39,8 @@ public class ManyUserReadTest extends ReadDeepTreeTest {
     private final int numberOfMembers = 10;
     private final boolean randomUser;
 
-    protected ManyUserReadTest(boolean runAsAdmin, int itemsToRead, boolean doReport, boolean randomUser) {
-        super(runAsAdmin, itemsToRead, doReport, !randomUser);
+    protected ManyUserReadTest(boolean runAsAdmin, int itemsToRead, boolean randomUser) {
+        super(runAsAdmin, itemsToRead, !randomUser);
         this.randomUser = randomUser;
     }
 
@@ -72,7 +74,7 @@ public class ManyUserReadTest extends ReadDeepTreeTest {
             userNode.addNode("private").setProperty("prop", "value");
             adminSession.save();
         }
-        System.out.println("Setup "+numberOfUsers+" users");
+        println_verbose("Setup "+numberOfUsers+" users");
 
         for (int i = 0; i < numberOfUsers; i++) {
             Group g = (Group) userManager.getAuthorizable("group"+i);
@@ -82,8 +84,8 @@ public class ManyUserReadTest extends ReadDeepTreeTest {
             adminSession.save();
         }
 
-        System.out.println("Setup group membership ("+numberOfMembers+" members per group)");
-        System.out.println("All Paths : " + allPaths.size());
+        println_verbose("Setup group membership ("+numberOfMembers+" members per group)");
+        println_verbose("All Paths : " + allPaths.size());
 
         AccessControlUtils.denyAllToEveryone(adminSession, "/rep:security/rep:authorizables");
         adminSession.save();

@@ -33,8 +33,8 @@ import org.apache.jackrabbit.oak.spi.security.principal.EveryonePrincipal;
 public class ConcurrentReadSinglePolicyTreeTest extends ConcurrentReadDeepTreeTest {
 
     public ConcurrentReadSinglePolicyTreeTest(
-            boolean runAsAdmin, int itemsToRead, boolean doReport) {
-        super(runAsAdmin, itemsToRead, doReport);
+            boolean runAsAdmin, int itemsToRead) {
+        super(runAsAdmin, itemsToRead);
     }
 
     @Override

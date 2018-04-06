@@ -37,6 +37,8 @@ import org.apache.jackrabbit.commons.jackrabbit.authorization.AccessControlUtils
 import org.apache.jackrabbit.oak.spi.security.authorization.accesscontrol.AccessControlConstants;
 import org.apache.jackrabbit.util.Text;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * Randomly read 1000 items from the deep tree.
  */
@@ -55,14 +57,13 @@ public class ReadDeepTreeTest extends AbstractTest {
 
     protected List<String> allPaths = new ArrayList<String>();
 
-    protected ReadDeepTreeTest(boolean runAsAdmin, int itemsToRead, boolean doReport) {
-        this(runAsAdmin, itemsToRead, doReport, true);
+    protected ReadDeepTreeTest(boolean runAsAdmin, int itemsToRead) {
+        this(runAsAdmin, itemsToRead, true);
     }
 
-    public ReadDeepTreeTest(boolean runAsAdmin, int itemsToRead, boolean doReport, boolean singleSession) {
+    public ReadDeepTreeTest(boolean runAsAdmin, int itemsToRead, boolean singleSession) {
         this.runAsAdmin = runAsAdmin;
         this.itemsToRead = itemsToRead;
-        this.doReport = doReport;
         this.singleSession = singleSession;
     }
 
@@ -87,7 +88,7 @@ public class ReadDeepTreeTest extends AbstractTest {
         } else {
             testRoot = rn.getNode(testNodeName);
         }
-        System.out.println("Import deep tree: " + (System.currentTimeMillis()-start));
+        println_verbose("Import deep tree: " + (System.currentTimeMillis()-start));
 
         ItemVisitor v = new TraversingItemVisitor.Default() {
             @Override
@@ -102,7 +103,7 @@ public class ReadDeepTreeTest extends AbstractTest {
             }
         };
         v.visit(testRoot);
-        System.out.println("All paths: " + allPaths.size());
+        println_verbose("All paths: " + allPaths.size());
     }
 
     protected String getImportFileName() {
@@ -160,9 +161,7 @@ public class ReadDeepTreeTest extends AbstractTest {
                 }
             }
             long end = System.currentTimeMillis();
-            if (doReport) {
-                System.out.println("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
-            }
+            println_verbose("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
         } finally {
             if (logout) {
                 logout(testSession);
