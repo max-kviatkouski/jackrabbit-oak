@@ -55,8 +55,8 @@ public class FullTextSolrSearchTest extends FullTextSearchTest {
     private SolrServerProvider serverProvider;
     private String server;
 
-    public FullTextSolrSearchTest(File dump, boolean flat, boolean doReport, Boolean storageEnabled, String server) {
-        super(dump, flat, doReport, storageEnabled);
+    public FullTextSolrSearchTest(File dump, boolean flat, Boolean storageEnabled, String server) {
+        super(dump, flat, storageEnabled);
         this.server = server;
     }
 

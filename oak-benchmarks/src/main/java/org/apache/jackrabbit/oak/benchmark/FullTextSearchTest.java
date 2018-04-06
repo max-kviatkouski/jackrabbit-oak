@@ -88,8 +88,8 @@ public class FullTextSearchTest extends AbstractTest<FullTextSearchTest.TestCont
 
     private File indexCopierDir;
 
-    public FullTextSearchTest(File dump, boolean flat, boolean doReport, Boolean storageEnabled) {
-        this.importer = new WikipediaImport(dump, flat, doReport) {
+    public FullTextSearchTest(File dump, boolean flat, Boolean storageEnabled) {
+        this.importer = new WikipediaImport(dump, flat) {
             @Override
             protected void pageAdded(String title, String text) {
                 count++;

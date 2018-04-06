@@ -18,6 +18,8 @@ package org.apache.jackrabbit.oak.benchmark.wikipedia;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.lang.Math.min;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.format_verbose;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -45,8 +47,6 @@ public class WikipediaImport extends Benchmark {
 
     private final File dump;
 
-    private final boolean doReport;
-
     private final boolean flat;
     
     /**
@@ -55,25 +55,24 @@ public class WikipediaImport extends Benchmark {
      */
     private boolean haltImport;
 
-    public WikipediaImport(File dump, boolean flat, boolean doReport) {
+    public WikipediaImport(File dump, boolean flat) {
         this.dump = dump;
         this.flat = flat;
-        this.doReport = doReport;
     }
 
     @Override
     public void run(Iterable<RepositoryFixture> fixtures) {
         if (dump == null) {
-            System.out.format("Missing Wikipedia dump, skipping import benchmark.%n");
+            println_verbose("Missing Wikipedia dump, skipping import benchmark.%n");
             return;
         }
         if (!dump.isFile()) {
-            System.out.format("The Wikipedia dump at %s is not a file, skipping import benchmark.%n", dump.getPath());
+            format_verbose("The Wikipedia dump at %s is not a file, skipping import benchmark.%n", dump.getPath());
             return;
         }
         for (RepositoryFixture fixture : fixtures) {
             if (fixture.isAvailable(1)) {
-                System.out.format(
+                format_verbose(
                         "%s: Wikipedia import benchmark%n", fixture);
                 try {
                     Repository[] cluster = setupCluster(fixture);
@@ -86,7 +85,7 @@ public class WikipediaImport extends Benchmark {
                     e.printStackTrace();
                 }
             } else {
-                System.out.format("%s: not available, skipping.%n", fixture);
+                format_verbose("%s: not available, skipping.%n", fixture);
             }
         }
     }
@@ -124,9 +123,7 @@ public class WikipediaImport extends Benchmark {
         int count = 0;
         int code = 0;
 
-        if(doReport) {
-            System.out.format("Importing %s...%n", dump);
-        }
+        format_verbose("Importing %s...%n", dump);
 
         String type = "nt:unstructured";
         if (session.getWorkspace().getNodeTypeManager().hasNodeType("oak:Unstructured")) {
@@ -195,12 +192,10 @@ public class WikipediaImport extends Benchmark {
 
         session.save();
 
-        if (doReport) {
-            long millis = System.currentTimeMillis() - start;
-            System.out.format(
+        long millis = System.currentTimeMillis() - start;
+        format_verbose(
                     "Imported %d pages in %d seconds (%.2fms/page)%n",
                     count, millis / 1000, (double) millis / count);
-        }
 
         return code;
     }
@@ -209,12 +204,10 @@ public class WikipediaImport extends Benchmark {
         if (!flat) {
             session.save();
         }
-        if (doReport) {
-            long millis = System.currentTimeMillis() - start;
-            System.out.format(
-                    "Added %d pages in %d seconds (%.2fms/page)%n",
-                    count, millis / 1000, (double) millis / count);
-        }
+        long millis = System.currentTimeMillis() - start;
+        format_verbose(
+            "Added %d pages in %d seconds (%.2fms/page)%n",
+            count, millis / 1000, (double) millis / count);
     }
 
     protected void pageAdded(String title, String text) {
@@ -227,17 +220,15 @@ public class WikipediaImport extends Benchmark {
         private int code = 0;
 
         private int traverse(Session session) throws Exception {
-            System.out.format("Traversing imported pages...%n");
+            format_verbose("Traversing imported pages...%n");
             Node wikipedia = session.getNode("/wikipedia");
 
             traverse(wikipedia);
 
-            if (doReport) {
-                long millis = System.currentTimeMillis() - start;
-                System.out.format(
-                        "Traversed %d pages in %d seconds (%.2fms/page)%n",
-                        count, millis / 1000, (double) millis / count);
-            }
+            long millis = System.currentTimeMillis() - start;
+            format_verbose(
+                "Traversed %d pages in %d seconds (%.2fms/page)%n",
+                count, millis / 1000, (double) millis / count);
 
             return code;
         }
@@ -251,9 +242,9 @@ public class WikipediaImport extends Benchmark {
                 code += page.getProperty("text").getString().hashCode();
 
                 count++;
-                if (count % 1000 == 0 && doReport) {
+                if (count % 1000 == 0) {
                     long millis = System.currentTimeMillis() - start;
-                    System.out.format(
+                    format_verbose(
                             "Read %d pages in %d seconds (%.2fms/page)%n",
                             count, millis / 1000, (double) millis / count);
                 }

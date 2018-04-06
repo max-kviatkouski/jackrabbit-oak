@@ -47,6 +47,7 @@ import org.apache.jackrabbit.oak.benchmark.authentication.external.PrincipalName
 import org.apache.jackrabbit.oak.benchmark.authentication.external.SyncAllExternalUsersTest;
 import org.apache.jackrabbit.oak.benchmark.authentication.external.SyncExternalUsersTest;
 import org.apache.jackrabbit.oak.benchmark.authorization.AceCreationTest;
+import org.apache.jackrabbit.oak.benchmark.util.FilterPrinter;
 import org.apache.jackrabbit.oak.benchmark.wikipedia.WikipediaImport;
 import org.apache.jackrabbit.oak.fixture.JackrabbitRepositoryFixture;
 import org.apache.jackrabbit.oak.fixture.OakFixture;
@@ -257,6 +258,8 @@ public class BenchmarkRunner {
                 OakRepositoryFixture.getCompositeMemoryStore(mounts.value(options), pathsPerMount.value(options))
         };
 
+        FilterPrinter.setVerbose(report.value(options));
+
         Benchmark[] allBenchmarks = new Benchmark[] {
             new OrderedIndexQueryOrderedIndexTest(),
             new OrderedIndexQueryStandardIndexTest(),
@@ -317,8 +320,8 @@ public class BenchmarkRunner {
             new TransientManyChildNodesTest(),
             new WikipediaImport(
                     wikipedia.value(options),
-                    flatStructure.value(options),
-                    report.value(options)),
+                    flatStructure.value(options)
+            ),
             new CreateNodesBenchmark(),
             new ManyNodes(),
             new ObservationTest(),
@@ -463,11 +466,11 @@ public class BenchmarkRunner {
             new FullTextSearchTest(
                     wikipedia.value(options),
                     flatStructure.value(options),
-                    report.value(options), withStorage.value(options)),
+                    withStorage.value(options)),
             new FullTextSolrSearchTest(
                     wikipedia.value(options),
                     flatStructure.value(options),
-                    report.value(options), withStorage.value(options), withServer.value(options)),
+                    withStorage.value(options), withServer.value(options)),
             new FindAuthorizableWithScopeTest(numberOfUsers.value(options), setScope.value(options)),
             new LucenePropertyFullTextTest(
                 wikipedia.value(options),

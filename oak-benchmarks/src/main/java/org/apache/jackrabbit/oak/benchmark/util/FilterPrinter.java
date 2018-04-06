@@ -26,6 +26,12 @@ public class FilterPrinter {
         }
     }
 
+    public static void format_verbose(String format, Object... args) {
+        if (VERBOSE) {
+            System.out.format(format, args);
+        }
+    }
+
     public static void setVerbose(boolean VERBOSE) {
         FilterPrinter.VERBOSE = VERBOSE;
     }

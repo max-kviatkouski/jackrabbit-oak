@@ -168,7 +168,7 @@ public class LucenePropertyFullTextTest extends AbstractTest<LucenePropertyFullT
                                       final boolean flat, 
                                       final boolean doReport, 
                                       final Boolean storageEnabled) {
-        this.importer = new WikipediaImport(dump, flat, doReport) {
+        this.importer = new WikipediaImport(dump, flat) {
 
             @Override
             protected void pageAdded(String title, String text) {
