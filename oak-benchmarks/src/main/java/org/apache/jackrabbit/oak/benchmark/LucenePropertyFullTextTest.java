@@ -164,9 +164,8 @@ public class LucenePropertyFullTextTest extends AbstractTest<LucenePropertyFullT
      */
     private AtomicReference<String> lastTitle = new AtomicReference<String>();
     
-    public LucenePropertyFullTextTest(final File dump, 
-                                      final boolean flat, 
-                                      final boolean doReport, 
+    public LucenePropertyFullTextTest(final File dump,
+                                      final boolean flat,
                                       final Boolean storageEnabled) {
         this.importer = new WikipediaImport(dump, flat) {
 

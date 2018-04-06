@@ -39,11 +39,10 @@ import org.apache.jackrabbit.oak.spi.query.QueryIndexProvider;
  */
 public class LucenePropertyFTSeparated extends LucenePropertyFullTextTest {
 
-    public LucenePropertyFTSeparated(final File dump, 
-                                     final boolean flat, 
-                                     final boolean doReport,
+    public LucenePropertyFTSeparated(final File dump,
+                                     final boolean flat,
                                      final Boolean storageEnabled) {
-        super(dump, flat, doReport, storageEnabled);
+        super(dump, flat, storageEnabled);
         currentTest = this.getClass().getSimpleName();
     }
 
