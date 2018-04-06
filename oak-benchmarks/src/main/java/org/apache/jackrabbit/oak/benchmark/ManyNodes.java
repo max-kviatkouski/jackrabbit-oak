@@ -24,18 +24,14 @@ import javax.jcr.SimpleCredentials;
 
 import org.apache.jackrabbit.oak.fixture.RepositoryFixture;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 public class ManyNodes extends Benchmark {
-
-    private final boolean verbose;
-
-    ManyNodes(boolean verbose) {
-        this.verbose = verbose;
-    }
 
     @Override
     public void run(Iterable<RepositoryFixture> fixtures) {
         for (RepositoryFixture fixture : fixtures) {
-            System.out.println("ManyNodes test: " + fixture);
+            println_verbose("ManyNodes test: " + fixture);
             if (fixture.isAvailable(1)) {
                 try {
                     Repository[] cluster = fixture.setUpCluster(1);
@@ -54,7 +50,7 @@ public class ManyNodes extends Benchmark {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("- not available, skipping");
+                println_verbose("- not available, skipping");
             }
         }
     }
@@ -76,9 +72,7 @@ public class ManyNodes extends Benchmark {
                 session.save();
                 if (total % 10000 == 0) {
                     long now = System.currentTimeMillis();
-                    if (verbose) {
-                        System.out.println(total + " nodes in " + (now - time) + " ms");
-                    }
+                    println_verbose(total + " nodes in " + (now - time) + " ms");
                     time = now;
                 }
             }

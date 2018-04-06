@@ -321,7 +321,7 @@ public class BenchmarkRunner {
                     flatStructure.value(options),
                     report.value(options)),
             new CreateNodesBenchmark(),
-            new ManyNodes(options.has(verbose)),
+            new ManyNodes(),
             new ObservationTest(),
             new RevisionGCTest(),
             new ContinuousRevisionGCTest(),
