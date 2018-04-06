@@ -42,6 +42,7 @@ import static javax.jcr.observation.Event.PERSIST;
 import static javax.jcr.observation.Event.PROPERTY_ADDED;
 import static javax.jcr.observation.Event.PROPERTY_CHANGED;
 import static javax.jcr.observation.Event.PROPERTY_REMOVED;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 
 public class ConcurrentCreateNodesTest extends AbstractTest {
 
@@ -56,7 +57,6 @@ public class ConcurrentCreateNodesTest extends AbstractTest {
     private static final int NODE_COUNT_LEVEL2 = 50;
     private static final String NODE_TYPE = System.getProperty("nodeType", "nt:unstructured");
     private static final boolean DISABLE_INDEX = Boolean.getBoolean("disableIndex");
-    private static final boolean VERBOSE = Boolean.getBoolean("verbose");
     private Writer writer;
     private final AtomicInteger NODE_COUNT = new AtomicInteger();
 
@@ -146,9 +146,9 @@ public class ConcurrentCreateNodesTest extends AbstractTest {
                 }
                 numNodes = NODE_COUNT.get() - numNodes;
                 time = System.currentTimeMillis() - time;
-                if (this == writer && VERBOSE) {
+                if (this == writer) {
                     long perSecond = numNodes * 1000 / time;
-                    System.out.println("Created " + numNodes + " in " + time + " ms. (" + perSecond + " nodes/sec)");
+                    println_verbose("Created " + numNodes + " in " + time + " ms. (" + perSecond + " nodes/sec)");
                 }
             } catch (RepositoryException e) {
                 e.printStackTrace();
