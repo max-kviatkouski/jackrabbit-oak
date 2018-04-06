@@ -25,6 +25,7 @@ import javax.jcr.SimpleCredentials;
 
 import org.apache.jackrabbit.oak.fixture.RepositoryFixture;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.format_verbose;
 import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 
 public class ReplicaCrashResilienceTest extends Benchmark {
@@ -38,7 +39,7 @@ public class ReplicaCrashResilienceTest extends Benchmark {
     public void run(Iterable<RepositoryFixture> fixtures) {
         for (RepositoryFixture fixture : fixtures) {
             if (fixture.isAvailable(1)) {
-                System.out.format("%s: ReplicaCrashResilienceTest%n", fixture);
+                format_verbose("%s: ReplicaCrashResilienceTest%n", fixture);
                 try {
                     Repository[] cluster = fixture.setUpCluster(1);
                     try {

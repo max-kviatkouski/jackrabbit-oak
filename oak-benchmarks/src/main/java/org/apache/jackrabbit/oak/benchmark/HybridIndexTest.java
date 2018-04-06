@@ -95,6 +95,7 @@ import org.slf4j.LoggerFactory;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.printf_verbose;
 import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 import static org.apache.jackrabbit.oak.plugins.index.IndexConstants.DECLARING_NODE_TYPES;
 import static org.apache.jackrabbit.oak.plugins.index.IndexConstants.INDEX_DEFINITIONS_NODE_TYPE;
@@ -285,7 +286,7 @@ public class HybridIndexTest extends AbstractTest<HybridIndexTest.TestContext> {
         if (indexCopierDir != null) {
             FileUtils.deleteDirectory(indexCopierDir);
         }
-        System.out.printf("numOfIndexes: %d, refreshDeltaMillis: %d, asyncInterval: %d, queueSize: %d , " +
+        printf_verbose("numOfIndexes: %d, refreshDeltaMillis: %d, asyncInterval: %d, queueSize: %d , " +
                         "hybridIndexEnabled: %s, indexingMode: %s, useOakCodec: %s, cleanerIntervalInSecs: %d, " +
                         "syncIndexing: %s %n",
                 numOfIndexes, refreshDeltaMillis, asyncInterval, queueSize, hybridIndexEnabled,

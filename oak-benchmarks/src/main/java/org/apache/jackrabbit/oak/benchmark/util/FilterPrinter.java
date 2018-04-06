@@ -32,6 +32,12 @@ public class FilterPrinter {
         }
     }
 
+    public static void print_verbose(String s) {
+        if (VERBOSE) {
+            System.out.print(s);
+        }
+    }
+
     public static void println_verbose() {
         if (VERBOSE) {
             System.out.println();
@@ -41,6 +47,12 @@ public class FilterPrinter {
     public static void format_verbose(String format, Object... args) {
         if (VERBOSE) {
             System.out.format(format, args);
+        }
+    }
+
+    public static void printf_verbose(String format, Object... args) {
+        if (VERBOSE) {
+            System.out.printf(format, args);
         }
     }
 

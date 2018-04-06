@@ -26,6 +26,7 @@ import static javax.jcr.observation.Event.PERSIST;
 import static javax.jcr.observation.Event.PROPERTY_ADDED;
 import static javax.jcr.observation.Event.PROPERTY_CHANGED;
 import static javax.jcr.observation.Event.PROPERTY_REMOVED;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.format_verbose;
 import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 import static org.apache.jackrabbit.oak.spi.whiteboard.WhiteboardUtils.getServices;
 
@@ -74,7 +75,7 @@ public class ObservationTest extends Benchmark {
     public void run(Iterable<RepositoryFixture> fixtures) {
         for (RepositoryFixture fixture : fixtures) {
             if (fixture.isAvailable(1)) {
-                System.out.format("%s: Observation throughput benchmark%n", fixture);
+                format_verbose("%s: Observation throughput benchmark%n", fixture);
                 try {
                     final AtomicReference<Whiteboard> whiteboardRef = new AtomicReference<Whiteboard>();
                     Repository[] cluster;
@@ -199,7 +200,7 @@ public class ObservationTest extends Benchmark {
                 double nps = (double) nc / t * 1000;
                 double eps = (double) ec / t * 1000;
                 double epn = (double) ec / nc / EVENTS_PER_NODE;
-
+                //TODO: figure out how to print this one
                 System.out.format(
                         "%7d %7d %7.1f %7d %7.1f %7.2f %7d %7d%n",
                            t, nc,  nps, ec,  eps,  epn, ql[0], ql[1]);

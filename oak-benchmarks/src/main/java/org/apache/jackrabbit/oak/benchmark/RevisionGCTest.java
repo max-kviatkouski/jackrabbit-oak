@@ -37,6 +37,8 @@ import org.apache.jackrabbit.oak.spi.state.NodeStore;
 
 import com.google.common.base.Stopwatch;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.format_verbose;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.print_verbose;
 import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 
 /**
@@ -56,7 +58,7 @@ public class RevisionGCTest extends Benchmark {
     public void run(Iterable<RepositoryFixture> fixtures) {
         for (RepositoryFixture fixture : fixtures) {
             if (fixture.isAvailable(1)) {
-                System.out.format("%s: RevisionGC benchmark%n", fixture);
+                format_verbose("%s: RevisionGC benchmark%n", fixture);
                 try {
                     final AtomicReference<Oak> whiteboardRef = new AtomicReference<Oak>();
                     Repository[] cluster;
@@ -89,7 +91,7 @@ public class RevisionGCTest extends Benchmark {
         Session s = createSession(repository);
         Random rand = new Random();
         try {
-            System.out.print("Creating garbage ");
+            print_verbose("Creating garbage ");
             String longPathName = "0123456789";
             int depth = Integer.getInteger("RevisionGCTest.PATHDEPTH", 0);
             Node p = s.getRootNode();
@@ -109,7 +111,7 @@ public class RevisionGCTest extends Benchmark {
                     n.remove();
                     s.save();
                 }
-                System.out.print(".");
+                print_verbose(".");
             }
             println_verbose();
             println_verbose("Running RevisionGC");

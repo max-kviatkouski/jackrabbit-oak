@@ -31,6 +31,8 @@ import javax.jcr.query.QueryManager;
 
 import org.apache.jackrabbit.oak.benchmark.util.OakIndexUtils;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.printf_verbose;
+
 public class UUIDLookupTest extends AbstractTest {
     private static final int NODE_COUNT = 100;
 
@@ -67,7 +69,7 @@ public class UUIDLookupTest extends AbstractTest {
             session.save();
         }
         String lookupMode = lookupByQuery ? "query" : "Session#getNodeByIdentifier";
-        System.out.printf("No of indexes (%s) %d, Lookup by (%s)[%s] %n",noOfIndex, noOfIndex, "lookupByQuery", lookupMode);
+        printf_verbose("No of indexes (%s) %d, Lookup by (%s)[%s] %n",noOfIndex, noOfIndex, "lookupByQuery", lookupMode);
     }
 
     @Override
