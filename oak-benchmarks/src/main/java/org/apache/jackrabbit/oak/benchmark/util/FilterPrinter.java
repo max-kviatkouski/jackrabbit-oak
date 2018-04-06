@@ -20,9 +20,21 @@ import org.apache.jackrabbit.oak.benchmark.BenchmarkRunner;
 
 public class FilterPrinter {
     private static boolean VERBOSE = false;
+    public static void println_verbose(Object s) {
+        if (VERBOSE) {
+            System.out.println(s);
+        }
+    }
+
     public static void println_verbose(String s) {
         if (VERBOSE) {
             System.out.println(s);
+        }
+    }
+
+    public static void println_verbose() {
+        if (VERBOSE) {
+            System.out.println();
         }
     }
 

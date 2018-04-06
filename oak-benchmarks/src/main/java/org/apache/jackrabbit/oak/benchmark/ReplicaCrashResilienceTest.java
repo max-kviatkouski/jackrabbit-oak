@@ -25,6 +25,8 @@ import javax.jcr.SimpleCredentials;
 
 import org.apache.jackrabbit.oak.fixture.RepositoryFixture;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 public class ReplicaCrashResilienceTest extends Benchmark {
 
     private static final String LEVEL2POINTER = "level2pointer";
@@ -53,7 +55,7 @@ public class ReplicaCrashResilienceTest extends Benchmark {
     }
 
     private void run(final Repository repository) throws Exception {
-        System.out.println("Setup...");
+        println_verbose("Setup...");
         try {
             Session session = repository.login(
                     new SimpleCredentials("admin", "admin".toCharArray()));
@@ -91,7 +93,7 @@ public class ReplicaCrashResilienceTest extends Benchmark {
                     e1.printStackTrace();
                     System.exit(1);
                 }
-                System.out.println("Writer: Test start.");
+                println_verbose("Writer: Test start.");
                 while(true) {
                     try{
                         final String level1 = String.valueOf(level1Pointer);
@@ -106,15 +108,15 @@ public class ReplicaCrashResilienceTest extends Benchmark {
                             level1Node = replicaCrashTestNode.getNode(level1);
                         } else {
                             level1Node = replicaCrashTestNode.addNode(level1);
-                            System.out.println("Writer: Created level1 node: "+level1Node);
+                            println_verbose("Writer: Created level1 node: "+level1Node);
                         }
                         Node level2Node = level1Node.addNode(level2);
-                        System.out.println("Writer: Created level2 node: "+level2Node);
+                        println_verbose("Writer: Created level2 node: "+level2Node);
                         writerInfosNode.setProperty(LEVEL1POINTER, level1Pointer);
                         writerInfosNode.setProperty(LEVEL2POINTER, level2Pointer);
                         session.save();
                     } catch(com.google.common.util.concurrent.UncheckedExecutionException e) {
-                        System.out.println("Got an UncheckedException (levels: "+level1Pointer+"/"+level2Pointer+") from the google cache probably: "+e);
+                        println_verbose("Got an UncheckedException (levels: "+level1Pointer+"/"+level2Pointer+") from the google cache probably: "+e);
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e2) {
@@ -135,7 +137,7 @@ public class ReplicaCrashResilienceTest extends Benchmark {
 
         };
         Thread th1 = new Thread(writer);
-        System.out.println("Launching writer...");
+        println_verbose("Launching writer...");
         th1.start();
 
         Runnable reader = new Runnable() {
@@ -166,7 +168,7 @@ public class ReplicaCrashResilienceTest extends Benchmark {
                             long myPointer = level1Pointer * 1000 + level2Pointer;
                             long diff = writerPointer - myPointer;
                             if (diff<100) {
-                                System.out.println("Reader: Closer than 100, waiting...level1="+level1+", level2="+level2);
+                                println_verbose("Reader: Closer than 100, waiting...level1="+level1+", level2="+level2);
                                 try {
                                     Thread.sleep(1000);
                                 } catch (InterruptedException e) {
@@ -199,11 +201,11 @@ public class ReplicaCrashResilienceTest extends Benchmark {
                             } else {
                                 // read it
                                 Node level2Node = level1Node.getNode(level2);
-                                System.out.println("Reader: verified level1="+level1+", level2="+level2);
+                                println_verbose("Reader: verified level1="+level1+", level2="+level2);
                             }
 
                         } catch(com.google.common.util.concurrent.UncheckedExecutionException e) {
-                            System.out.println("Got an UncheckedException from the google cache probably: "+e);
+                            println_verbose("Got an UncheckedException from the google cache probably: "+e);
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException e2) {
@@ -225,7 +227,7 @@ public class ReplicaCrashResilienceTest extends Benchmark {
                     e1.printStackTrace(System.out);
                     System.exit(1);
                 }
-                System.out.println("Test start.");
+                println_verbose("Test start.");
 
             }
         };
@@ -233,7 +235,7 @@ public class ReplicaCrashResilienceTest extends Benchmark {
         Thread.sleep(1000);
         th2.start();
 
-        System.out.println("Waiting for writer to finish...");
+        println_verbose("Waiting for writer to finish...");
         th1.join();
     }
 }

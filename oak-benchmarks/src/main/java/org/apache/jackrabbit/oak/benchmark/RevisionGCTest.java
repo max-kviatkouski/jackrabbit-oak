@@ -37,6 +37,8 @@ import org.apache.jackrabbit.oak.spi.state.NodeStore;
 
 import com.google.common.base.Stopwatch;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * A benchmark to run RevisionGC.
  */
@@ -96,7 +98,7 @@ public class RevisionGCTest extends Benchmark {
                 p = p.addNode(longPathName);
             }
             s.save();
-            System.out.println("Creating garbage in " + p.getPath() + " (" + p.getPath().length() + " chars)");
+            println_verbose("Creating garbage in " + p.getPath() + " (" + p.getPath().length() + " chars)");
             for (int i = 0; i < SCALE; i++) {
                 Node n = p.addNode("node-" + i);
                 for (int j = 0; j < 1000; j++) {
@@ -109,13 +111,13 @@ public class RevisionGCTest extends Benchmark {
                 }
                 System.out.print(".");
             }
-            System.out.println();
-            System.out.println("Running RevisionGC");
+            println_verbose();
+            println_verbose("Running RevisionGC");
             Stopwatch sw = Stopwatch.createStarted();
             String result = revisionGC(nodeStore);
             sw.stop();
-            System.out.println(result);
-            System.out.println("Performed RevisionGC in " + sw);
+            println_verbose(result);
+            println_verbose("Performed RevisionGC in " + sw);
         } finally {
             s.logout();
         }

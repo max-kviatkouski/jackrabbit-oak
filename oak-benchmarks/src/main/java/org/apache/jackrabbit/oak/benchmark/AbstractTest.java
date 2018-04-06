@@ -46,6 +46,8 @@ import org.apache.jackrabbit.oak.spi.security.authentication.SystemSubject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * Abstract base class for individual performance benchmarks.
  */
@@ -350,6 +352,8 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
         beforeTest();
         try {
             long start = System.currentTimeMillis();
+            // for those who might want to uncomment this
+            // please use FilterPrinter.println_verbose so we can switch between printing everything and only stats
             // System.out.println("execute " + this);
             runTest();
             return System.currentTimeMillis() - start;
@@ -366,6 +370,8 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
         beforeTest(executionContext);
         try {
             long start = System.currentTimeMillis();
+            // for those who might want to uncomment this
+            // please use FilterPrinter.println_verbose so we can switch between printing everything and only stats
             // System.out.println("execute " + this);
             runTest(executionContext);
             return System.currentTimeMillis() - start;
@@ -387,7 +393,7 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
         }
 
         if (profiler != null) {
-            System.out.println(profiler.stopCollecting().getTop(5));
+            println_verbose(profiler.stopCollecting().getTop(5));
             profiler = null;
         }
 

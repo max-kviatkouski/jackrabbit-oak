@@ -33,6 +33,8 @@ import org.apache.jackrabbit.commons.jackrabbit.authorization.AccessControlUtils
 import org.apache.jackrabbit.oak.spi.security.authorization.accesscontrol.AccessControlConstants;
 import org.apache.jackrabbit.oak.spi.security.principal.EveryonePrincipal;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * Test case that randomly reads from 10k unstructured nodes that are all access controlled with an everyone ACL.
  */
@@ -93,7 +95,7 @@ public class ConcurrentEveryoneACLTest extends AbstractTest {
             }
         };
         v.visit(root);
-        System.out.println("Num ACEs: " + numACEs[0]);
+        println_verbose("Num ACEs: " + numACEs[0]);
 
         session.logout();
     }

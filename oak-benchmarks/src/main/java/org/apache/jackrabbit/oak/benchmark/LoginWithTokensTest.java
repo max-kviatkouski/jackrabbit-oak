@@ -34,6 +34,8 @@ import org.apache.jackrabbit.oak.spi.security.authentication.token.TokenProvider
 import org.apache.jackrabbit.oak.spi.security.principal.PrincipalImpl;
 import org.apache.jackrabbit.util.Text;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * Measure impact of synchronous token cleanup on the repository login with
  * tokens over multiple users. Concurrency can be set via the benchmark runner.
@@ -91,7 +93,7 @@ public class LoginWithTokensTest extends AbstractLoginTest {
             s.save();
             s.logout();
         }
-        System.out.println("setup done, created " + numberOfUsers + " users.");
+        println_verbose("setup done, created " + numberOfUsers + " users.");
     }
 
     @Override

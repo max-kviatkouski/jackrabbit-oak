@@ -95,6 +95,7 @@ import org.slf4j.LoggerFactory;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 import static org.apache.jackrabbit.oak.plugins.index.IndexConstants.DECLARING_NODE_TYPES;
 import static org.apache.jackrabbit.oak.plugins.index.IndexConstants.INDEX_DEFINITIONS_NODE_TYPE;
 import static org.apache.jackrabbit.oak.spi.nodetype.NodeTypeConstants.NT_OAK_UNSTRUCTURED;
@@ -414,10 +415,10 @@ public class HybridIndexTest extends AbstractTest<HybridIndexTest.TestContext> {
 
     private void dumpStats() {
         IndexStatsMBean indexStats = WhiteboardUtils.getService(whiteboard, IndexStatsMBean.class);
-        System.out.println(indexStats.getConsolidatedExecutionStats());
+        println_verbose(indexStats.getConsolidatedExecutionStats());
         String queueSize = Arrays.toString(statsProvider.getStats().getTimeSeries("HYBRID_QUEUE_SIZE", false)
                 .getValuePerSecond());
-        System.out.println("Queue size - " + queueSize);
+        println_verbose("Queue size - " + queueSize);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

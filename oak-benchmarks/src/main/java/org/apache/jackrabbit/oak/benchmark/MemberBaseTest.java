@@ -45,6 +45,8 @@ import org.apache.jackrabbit.oak.spi.xml.ImportBehavior;
 import org.apache.jackrabbit.oak.spi.xml.ProtectedItemImporter;
 import org.apache.jackrabbit.util.Text;
 
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
+
 /**
  * Abstract test-base for the various membership related operations (isMember, isDeclaredMember, memberOf, declaredMemberOf)
  * with the following characteristics an config options:
@@ -110,7 +112,7 @@ abstract class MemberBaseTest extends AbstractTest {
             s.save();
             s.logout();
         }
-        System.out.println("setup done");
+        println_verbose("setup done");
     }
 
     @Override
@@ -148,7 +150,7 @@ abstract class MemberBaseTest extends AbstractTest {
                         (User) uMgr.getAuthorizableByPath(memberPaths.get(random.nextInt(numberOfMembers))));
             }
         } catch (RepositoryException e) {
-            System.out.println(e.getMessage());
+            println_verbose(e.getMessage());
         } finally {
             if (s != null) {
                 s.logout();

@@ -26,6 +26,7 @@ import static javax.jcr.observation.Event.PERSIST;
 import static javax.jcr.observation.Event.PROPERTY_ADDED;
 import static javax.jcr.observation.Event.PROPERTY_CHANGED;
 import static javax.jcr.observation.Event.PROPERTY_REMOVED;
+import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 import static org.apache.jackrabbit.oak.spi.whiteboard.WhiteboardUtils.getServices;
 
 import java.util.List;
@@ -107,7 +108,7 @@ public class ObservationTest extends Benchmark {
         try {
             observationThroughput(repository, whiteboard);
         } finally {
-            System.out.println("Time elapsed: " + (System.currentTimeMillis() - t0) + " ms");
+            println_verbose("Time elapsed: " + (System.currentTimeMillis() - t0) + " ms");
             session.logout();
         }
     }
@@ -136,7 +137,7 @@ public class ObservationTest extends Benchmark {
         }
 
         String pathFilter = PATH_FILTER == null ? path : PATH_FILTER;
-        System.out.println("Path filter for event listener: " + pathFilter);
+        println_verbose("Path filter for event listener: " + pathFilter);
         ExecutorService service = Executors.newFixedThreadPool(WRITER_COUNT);
         try {
             for (int k = 0; k < LISTENER_COUNT; k++) {
@@ -185,7 +186,7 @@ public class ObservationTest extends Benchmark {
                 }));
             }
 
-            System.out.println("ms      #node   nodes/s #event  event/s event-ratio queue external");
+            println_verbose("ms      #node   nodes/s #event  event/s event-ratio queue external");
             while (!isDone(createNodes) || (eventCount.get() / LISTENER_COUNT < nodeCount.get() * EVENTS_PER_NODE)) {
                 long t0 = System.currentTimeMillis();
                 Thread.sleep(OUTPUT_RESOLUTION);
