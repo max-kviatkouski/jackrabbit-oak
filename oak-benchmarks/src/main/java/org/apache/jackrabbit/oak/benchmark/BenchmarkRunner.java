@@ -532,7 +532,6 @@ public class BenchmarkRunner {
                     } else if (consoleFormat.value(options).equalsIgnoreCase("machine-readable")){
                         ((AbstractTest) benchmark).setOutputStrategy(new MachineReadableConsoleStrategy((AbstractTest) benchmark));
                     }
-                    //TODO: put output setter for each benchmark here
                 }
                 if (benchmark instanceof CSVResultGenerator) {
                     ((CSVResultGenerator) benchmark).setPrintStream(out);

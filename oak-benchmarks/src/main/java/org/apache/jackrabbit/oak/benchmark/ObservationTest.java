@@ -200,7 +200,6 @@ public class ObservationTest extends Benchmark {
                 double nps = (double) nc / t * 1000;
                 double eps = (double) ec / t * 1000;
                 double epn = (double) ec / nc / EVENTS_PER_NODE;
-                //TODO: figure out how to print this one
                 System.out.format(
                         "%7d %7d %7.1f %7d %7.1f %7.2f %7d %7d%n",
                            t, nc,  nps, ec,  eps,  epn, ql[0], ql[1]);

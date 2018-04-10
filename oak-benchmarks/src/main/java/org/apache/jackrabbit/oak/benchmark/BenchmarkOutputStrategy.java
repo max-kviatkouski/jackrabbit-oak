@@ -16,11 +16,19 @@
  */
 package org.apache.jackrabbit.oak.benchmark;
 
-//TODO: document interface use
-//TODO: test machine readable output for BundlingNodeTest (there is an extra new line for some reason)
-//TODO: test pretty print with and without comments
-//TODO: test csv output with and without comments
+/**
+ * Defines interface for benchmark stats output strategy.
+ */
 public interface BenchmarkOutputStrategy {
+    
+    /**
+     * Method prints header of stats. For example column names.
+     */
     void printHeader();
+
+    /**
+     * Method to print benchmark stats.
+     * @param stats benchmark stats.
+     */
     void printStats(Object[] stats);
 }
