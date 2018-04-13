@@ -22,7 +22,7 @@ import org.apache.commons.lang.ArrayUtils;
 import java.io.PrintStream;
 import java.util.Formatter;
 
-public class MachineReadableConsoleStrategy implements BenchmarkOutputStrategy {
+public class MachineReadableConsoleStrategy extends AbstractOutputStrategy implements BenchmarkOutputStrategy {
     private final static String COMMENT_PATTERN = "#%s";
     private final PrintStream out;
 
@@ -48,9 +48,8 @@ public class MachineReadableConsoleStrategy implements BenchmarkOutputStrategy {
         String concatenatedFormat = Joiner.on(",").skipNulls().join("%s,%s,%d,%.0f,%.0f,%.0f,%.0f,%.0f,%d", getStatsFormatsJoined(test));
         StringBuilder sb = new StringBuilder();
         Formatter formatter = new Formatter(sb);
-        Object[] allStats = ArrayUtils.addAll(new Object[]{test.toString()}, test.statsValues());
-        allStats = ArrayUtils.addAll(allStats, new Object[]{test.comment()});
-        formatter.format(concatenatedFormat, allStats);
+        Object[] nameAndStats = ArrayUtils.addAll(new Object[]{test.toString()}, getAllStatsJoined(test));
+        formatter.format(concatenatedFormat, nameAndStats);
         out.println(sb.toString().replaceAll(", *", ","));
     }
 }

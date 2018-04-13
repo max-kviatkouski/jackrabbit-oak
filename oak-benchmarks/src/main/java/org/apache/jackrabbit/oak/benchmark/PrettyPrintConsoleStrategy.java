@@ -21,7 +21,7 @@ import org.apache.commons.lang.ArrayUtils;
 
 import java.io.PrintStream;
 
-public class PrettyPrintConsoleStrategy implements BenchmarkOutputStrategy {
+public class PrettyPrintConsoleStrategy extends AbstractOutputStrategy implements BenchmarkOutputStrategy {
 
     private final PrintStream out;
 
@@ -54,6 +54,6 @@ public class PrettyPrintConsoleStrategy implements BenchmarkOutputStrategy {
     public void printStats(AbstractTest test) {
         out.format(
                 "%-28.28s  %6d  %6.0f  %6.0f  %6.0f  %6.0f  %6.0f  %6d"+getStatsFormatsJoined(test)+"%n",
-                ArrayUtils.add(test.statsValues(), test.comment()));
+                getAllStatsJoined(test));
     }
 }

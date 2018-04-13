@@ -60,7 +60,9 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
     static final String TEST_ID = Integer.toHexString(new Random().nextInt());
     
     static AtomicInteger nodeNameCounter = new AtomicInteger();
-    
+
+    private Object[] defaultStats;
+
     /**
      * A node name that is guarantee to be unique within the current JVM.
      */
@@ -230,7 +232,7 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
             for (Integer concurrency: concurrencyLevels) {
                 // Run the test
                 DescriptiveStatistics statistics = runTest(concurrency);
-                Object[] defaultStats = new Object[] {
+                this.defaultStats = new Object[] {
                     fixture.toString(),
                     concurrency,
                     statistics.getMin(),
@@ -416,6 +418,17 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
      */
     protected Object[] statsValues(){
         return new Object[0];
+    }
+
+    /**
+     * Returns stats used in most of tests. BenchmarkOutputStrategy implementations
+     * may rely on this array of objects being always available to properly format test output.
+     * Therefore it's not recommended to override it. Any extra stats and their formats should be provided through
+     * {@link #statsValues()}, {@link #statsFormats()} and {@link #statsNames()}
+     * @return
+     */
+    protected final Object[] defaultStatsValues() {
+        return this.defaultStats;
     }
 
     @CheckForNull

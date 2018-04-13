@@ -21,7 +21,7 @@ import org.apache.commons.lang.ArrayUtils;
 
 import java.io.PrintStream;
 
-public class CsvOutputStrategy implements BenchmarkOutputStrategy {
+public class CsvOutputStrategy extends AbstractOutputStrategy implements BenchmarkOutputStrategy {
     private PrintStream out;
 
     public CsvOutputStrategy(PrintStream out) {
@@ -52,6 +52,6 @@ public class CsvOutputStrategy implements BenchmarkOutputStrategy {
     @Override
     public void printStats(AbstractTest test) {
         String concatenatedFormat = Joiner.on(',').skipNulls().join("%-28.28s, %6d, %6.0f, %6.0f, %6.0f, %6.0f, %6.0f, %6d", getStatsFormatsJoined(test), "%n");
-        out.format(concatenatedFormat, ArrayUtils.add(test.statsValues(), test.comment()));
+        out.format(concatenatedFormat, getAllStatsJoined(test));
     }
 }
