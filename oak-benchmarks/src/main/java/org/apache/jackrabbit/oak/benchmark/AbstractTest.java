@@ -36,7 +36,6 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.security.auth.Subject;
 
-import com.google.common.base.Joiner;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.stat.descriptive.SynchronizedDescriptiveStatistics;
@@ -148,7 +147,7 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
     @Override
     public void setPrintStream(PrintStream out) {
         if (out != null) {
-            this.csvStrategy = new CsvOutputStrategy(this, out);
+            this.csvStrategy = new CsvOutputStrategy(out);
         }
     }
 
@@ -191,10 +190,7 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
 
     @Override
     public void run(Iterable<RepositoryFixture> fixtures, List<Integer> concurrencyLevels) {
-        outputStrategy.printHeader();
-        if (this.csvStrategy != null) {
-            csvStrategy.printHeader();
-        }
+        outputStrategy.printHeader(this);
         for (RepositoryFixture fixture : fixtures) {
             currentFixture = fixture;
             try {
@@ -245,18 +241,7 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
                     statistics.getN()
                 };
 
-                Object[] statsArg =  ArrayUtils.addAll(defaultStats, statsValues());
-                String comment = comment();
-                if (comment != null) {
-                    statsArg = ArrayUtils.add(statsArg, comment);
-                }
-                if (statistics.getN() > 0) {
-                    outputStrategy.printStats(statsArg);
-                    if (this.csvStrategy != null) {
-                        this.csvStrategy.printStats(statsArg);
-                    }
-                }
-
+                outputStrategy.printStats(this);
             }
         } finally {
             tearDown();

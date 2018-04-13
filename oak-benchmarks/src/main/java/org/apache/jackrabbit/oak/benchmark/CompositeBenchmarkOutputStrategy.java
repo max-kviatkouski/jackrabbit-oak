@@ -16,19 +16,30 @@
  */
 package org.apache.jackrabbit.oak.benchmark;
 
-/**
- * Defines interface for benchmark stats output strategy.
- */
-public interface BenchmarkOutputStrategy {
-    
-    /**
-     * Method prints header of stats. For example column names.
-     */
-    void printHeader(AbstractTest test);
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
-    /**
-     * Method to print benchmark stats.
-     * @param test
-     */
-    void printStats(AbstractTest test);
+public class CompositeBenchmarkOutputStrategy implements BenchmarkOutputStrategy {
+    private List<BenchmarkOutputStrategy> strategies = new LinkedList<>();
+
+    public CompositeBenchmarkOutputStrategy addStrategy(BenchmarkOutputStrategy strategy) {
+        this.strategies.add(strategy);
+        return this;
+    }
+
+    @Override
+    public void printHeader(AbstractTest test) {
+        for (BenchmarkOutputStrategy strategy : strategies) {
+            strategy.printHeader(test);
+        }
+    }
+
+    @Override
+    public void printStats(AbstractTest test) {
+        for (BenchmarkOutputStrategy strategy : strategies) {
+            strategy.printStats(test);
+        }
+
+    }
 }

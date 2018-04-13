@@ -517,21 +517,21 @@ public class BenchmarkRunner {
                     + asSortedString(Arrays.asList(allBenchmarks)));
         }
 
+        CompositeBenchmarkOutputStrategy outputStrategy = new CompositeBenchmarkOutputStrategy();
         if (argset.isEmpty()) {
             PrintStream out = null;
             if (options.has(csvFile)) {
                 out = new PrintStream(FileUtils.openOutputStream(csvFile.value(options), true));
+                outputStrategy.addStrategy(new CsvOutputStrategy(out));
+            }
+            if (consoleFormat.value(options).equalsIgnoreCase("prettyprint")) {
+                outputStrategy.addStrategy(new PrettyPrintConsoleStrategy());
+            } else if (consoleFormat.value(options).equalsIgnoreCase("machine-readable")){
+                outputStrategy.addStrategy(new MachineReadableConsoleStrategy());
             }
             for (Benchmark benchmark : benchmarks) {
                 if (benchmark instanceof AbstractTest) {
-                    if (consoleFormat.value(options).equalsIgnoreCase("prettyprint")) {
-                        ((AbstractTest) benchmark).setOutputStrategy(new PrettyPrintConsoleStrategy((AbstractTest) benchmark));
-                    } else if (consoleFormat.value(options).equalsIgnoreCase("machine-readable")){
-                        ((AbstractTest) benchmark).setOutputStrategy(new MachineReadableConsoleStrategy((AbstractTest) benchmark));
-                    }
-                }
-                if (benchmark instanceof CSVResultGenerator) {
-                    ((CSVResultGenerator) benchmark).setPrintStream(out);
+                    ((AbstractTest) benchmark).setOutputStrategy(outputStrategy);
                 }
                 benchmark.run(fixtures, options.valuesOf(concurrency));
             }

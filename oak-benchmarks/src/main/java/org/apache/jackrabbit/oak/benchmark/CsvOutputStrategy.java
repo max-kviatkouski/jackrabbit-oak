@@ -23,19 +23,17 @@ import java.io.PrintStream;
 
 //TODO: fix csv output - compare with base revision
 public class CsvOutputStrategy implements BenchmarkOutputStrategy {
-    private AbstractTest test;
     private PrintStream out;
 
-    public CsvOutputStrategy(AbstractTest test, PrintStream out) {
-        this.test = test;
+    public CsvOutputStrategy(PrintStream out) {
         this.out = out;
     }
 
-    private String getStatsNamesJoined() {
+    private String getStatsNamesJoined(AbstractTest test) {
         return Joiner.on(',').join(test.statsNames());
     }
 
-    private String getStatsFormatsJoined() {
+    private String getStatsFormatsJoined(AbstractTest test) {
         String comment = test.comment();
         String[] formatPattern = test.statsFormats();
         if (comment != null){
@@ -46,15 +44,16 @@ public class CsvOutputStrategy implements BenchmarkOutputStrategy {
     }
 
     @Override
-    public void printHeader() {
+    public void printHeader(AbstractTest test) {
         this.out.format(
                 "# %-26.26s,      C,    min,    10%%,    50%%,    90%%,    max,      N%s%n",
-                test.toString(), getStatsNamesJoined());
+                test.toString(), getStatsNamesJoined(test));
     }
 
     @Override
-    public void printStats(Object[] stats) {
-        String concatenatedFormat = Joiner.on(',').skipNulls().join("%-28.28s, %6d, %6.0f, %6.0f, %6.0f, %6.0f, %6.0f, %6d", getStatsFormatsJoined(), "%n");
-        this.out.format(concatenatedFormat, stats);
+    //TODO: add comment to stats array here and in Prettyprint and Machine-readable strategy
+    public void printStats(AbstractTest test) {
+        String concatenatedFormat = Joiner.on(',').skipNulls().join("%-28.28s, %6d, %6.0f, %6.0f, %6.0f, %6.0f, %6.0f, %6d", getStatsFormatsJoined(test), "%n");
+        this.out.format(concatenatedFormat, test.statsValues());
     }
 }

@@ -265,6 +265,7 @@ public class ScalabilityRunner {
                     new PrintStream(FileUtils.openOutputStream(csvFile.value(options), true), false,
                                             Charsets.UTF_8.name());
             }
+            //TODO: use same approach with composite output strategy for scalability runner
             for (ScalabilitySuite suite : suites) {
                 if (suite instanceof CSVResultGenerator) {
                     ((CSVResultGenerator) suite).setPrintStream(out);

@@ -20,24 +20,19 @@ import com.google.common.base.Joiner;
 import org.apache.commons.lang.ArrayUtils;
 
 public class PrettyPrintConsoleStrategy implements BenchmarkOutputStrategy {
-    private AbstractTest test;
-
-    public PrettyPrintConsoleStrategy(AbstractTest test) {
-        this.test = test;
-    }
 
     @Override
-    public void printHeader() {
+    public void printHeader(AbstractTest test) {
         System.out.format(
                 "# %-26.26s       C     min     10%%     50%%     90%%     max       N%s%n",
-                test.toString(), getStatsNamesJoined());
+                test.toString(), getStatsNamesJoined(test));
     }
 
-    private String getStatsNamesJoined() {
+    private String getStatsNamesJoined(AbstractTest test) {
         return Joiner.on("  ").join(test.statsNames());
     }
 
-    private String getStatsFormatsJoined() {
+    private String getStatsFormatsJoined(AbstractTest test) {
         String comment = test.comment();
         String[] formatPattern = test.statsFormats();
         if (comment != null){
@@ -48,9 +43,9 @@ public class PrettyPrintConsoleStrategy implements BenchmarkOutputStrategy {
     }
 
     @Override
-    public void printStats(Object[] stats) {
+    public void printStats(AbstractTest test) {
         System.out.format(
-                "%-28.28s  %6d  %6.0f  %6.0f  %6.0f  %6.0f  %6.0f  %6d"+getStatsFormatsJoined()+"%n",
-                stats);
+                "%-28.28s  %6d  %6.0f  %6.0f  %6.0f  %6.0f  %6.0f  %6d"+getStatsFormatsJoined(test)+"%n",
+                test.statsValues());
     }
 }

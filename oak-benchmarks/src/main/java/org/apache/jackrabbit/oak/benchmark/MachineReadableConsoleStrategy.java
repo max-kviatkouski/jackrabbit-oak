@@ -23,16 +23,11 @@ import java.util.Formatter;
 
 public class MachineReadableConsoleStrategy implements BenchmarkOutputStrategy {
     private final static String COMMENT_PATTERN = "#%s";
-    private final AbstractTest test;
-
-    MachineReadableConsoleStrategy(AbstractTest test) {
-        this.test = test;
-    }
 
     @Override
-    public void printHeader() {}
+    public void printHeader(AbstractTest test) {}
 
-    private String getStatsFormatsJoined() {
+    private String getStatsFormatsJoined(AbstractTest test) {
         String comment = test.comment();
         String[] formatPattern =test.statsFormats();
         if (comment != null){
@@ -43,11 +38,11 @@ public class MachineReadableConsoleStrategy implements BenchmarkOutputStrategy {
     }
 
     @Override
-    public void printStats(Object[] stats) {
-        String concatenatedFormat = Joiner.on(",").skipNulls().join("%s,%s,%d,%.0f,%.0f,%.0f,%.0f,%.0f,%d", getStatsFormatsJoined());
+    public void printStats(AbstractTest test) {
+        String concatenatedFormat = Joiner.on(",").skipNulls().join("%s,%s,%d,%.0f,%.0f,%.0f,%.0f,%.0f,%d", getStatsFormatsJoined(test));
         StringBuilder sb = new StringBuilder();
         Formatter formatter = new Formatter(sb);
-        formatter.format(concatenatedFormat, ArrayUtils.addAll(new Object[]{test.toString()}, stats));
+        formatter.format(concatenatedFormat, ArrayUtils.addAll(new Object[]{test.toString()}, test.statsValues()));
         System.out.println(sb.toString().replaceAll(", *", ","));
     }
 }
