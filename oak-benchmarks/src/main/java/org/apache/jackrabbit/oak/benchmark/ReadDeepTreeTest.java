@@ -37,8 +37,6 @@ import org.apache.jackrabbit.commons.jackrabbit.authorization.AccessControlUtils
 import org.apache.jackrabbit.oak.spi.security.authorization.accesscontrol.AccessControlConstants;
 import org.apache.jackrabbit.util.Text;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * Randomly read 1000 items from the deep tree.
  */
@@ -87,7 +85,7 @@ public class ReadDeepTreeTest extends AbstractTest {
         } else {
             testRoot = rn.getNode(testNodeName);
         }
-        println_verbose("Import deep tree: " + (System.currentTimeMillis()-start));
+        System.out.println("Import deep tree: " + (System.currentTimeMillis()-start));
 
         ItemVisitor v = new TraversingItemVisitor.Default() {
             @Override
@@ -102,7 +100,7 @@ public class ReadDeepTreeTest extends AbstractTest {
             }
         };
         v.visit(testRoot);
-        println_verbose("All paths: " + allPaths.size());
+        System.out.println("All paths: " + allPaths.size());
     }
 
     protected String getImportFileName() {
@@ -160,7 +158,7 @@ public class ReadDeepTreeTest extends AbstractTest {
                 }
             }
             long end = System.currentTimeMillis();
-            println_verbose("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
+            System.out.println("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
         } finally {
             if (logout) {
                 logout(testSession);

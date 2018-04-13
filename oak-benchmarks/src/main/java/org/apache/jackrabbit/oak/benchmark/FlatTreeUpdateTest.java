@@ -20,8 +20,6 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * Benchmark for OAK-1866
  */
@@ -36,13 +34,13 @@ public class FlatTreeUpdateTest extends AbstractTest {
     @Override
     public void beforeSuite() throws RepositoryException {
         session = loginWriter();
-        println_verbose("start");
+        System.out.println("start");
         Node node = session.getRootNode().addNode(ROOT_NODE_NAME, "oak:Unstructured");
         for (int i = 0; i < CHILD_COUNT; i++) {
             node.addNode("node" + i, "oak:Unstructured");
         }
         session.save();
-        println_verbose("end");
+        System.out.println("end");
     }
 
     @Override

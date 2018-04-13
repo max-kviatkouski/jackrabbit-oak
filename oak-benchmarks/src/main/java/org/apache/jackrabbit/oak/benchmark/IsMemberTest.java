@@ -43,8 +43,6 @@ import org.apache.jackrabbit.oak.spi.xml.ImportBehavior;
 import org.apache.jackrabbit.oak.spi.xml.ProtectedItemImporter;
 import org.apache.jackrabbit.util.Text;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * Benchmark for {@link Group#isMember(Authorizable)} with the following setup:
  * - 10 groups
@@ -112,7 +110,7 @@ public class IsMemberTest extends AbstractTest {
             s.save();
             s.logout();
         }
-        println_verbose("setup done");
+        System.out.println("setup done");
     }
 
     @Override
@@ -167,7 +165,7 @@ public class IsMemberTest extends AbstractTest {
                 //System.out.println(USER + i + " is " + (isMember? "" : "not ")+ "member of " +groupId);
             }
         } catch (RepositoryException e) {
-            println_verbose(e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
             if (s != null) {
                 s.logout();

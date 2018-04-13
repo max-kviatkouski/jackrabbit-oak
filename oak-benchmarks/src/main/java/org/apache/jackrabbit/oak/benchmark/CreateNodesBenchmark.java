@@ -28,8 +28,6 @@ import javax.jcr.SimpleCredentials;
 
 import org.apache.jackrabbit.oak.fixture.RepositoryFixture;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.format_verbose;
-
 /**
  * Creates approximately 100k nodes (breadth first, save every 10 nodes).
  */
@@ -39,7 +37,7 @@ public class CreateNodesBenchmark extends Benchmark {
     public void run(Iterable<RepositoryFixture> fixtures) {
         for (RepositoryFixture fixture : fixtures) {
             if (fixture.isAvailable(1)) {
-                format_verbose("%s: Create nodes benchmark%n", fixture);
+                System.out.format("%s: Create nodes benchmark%n", fixture);
                 try {
                     Repository[] cluster = fixture.setUpCluster(1);
                     try {
@@ -62,9 +60,7 @@ public class CreateNodesBenchmark extends Benchmark {
         Node testRoot = session.getRootNode().addNode("r" + AbstractTest.TEST_ID);
         createNodes(testRoot, 20, 6, count, startTime);
         long duration = System.currentTimeMillis() - startTime;
-        format_verbose(
-                "Created %d nodes in %d seconds (%.2fms/node)%n",
-                count.get(), duration / 1000, (double) duration / count.get());
+        System.out.format("Created %d nodes in %d seconds (%.2fms/node)%n", count.get(), duration / 1000, (double) duration / count.get());
     }
 
     private void createNodes(Node n, int nodesPerLevel,
@@ -76,10 +72,7 @@ public class CreateNodesBenchmark extends Benchmark {
             nodes.add(n.addNode("folder-" + i, "nt:folder"));
             if (count.incrementAndGet() % 1000 == 0) {
                 long duration = System.currentTimeMillis() - startTime;
-                format_verbose(
-                        "Created %d nodes in %d seconds (%.2fms/node)...%n",
-                        count.get(), duration / 1000,
-                        (double) duration / count.get());
+                System.out.format("Created %d nodes in %d seconds (%.2fms/node)...%n", count.get(), duration / 1000, (double) duration / count.get());
             }
         }
         n.getSession().save();

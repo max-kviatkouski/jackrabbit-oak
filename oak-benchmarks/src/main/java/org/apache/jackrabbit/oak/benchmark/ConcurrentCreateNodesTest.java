@@ -42,7 +42,6 @@ import static javax.jcr.observation.Event.PERSIST;
 import static javax.jcr.observation.Event.PROPERTY_ADDED;
 import static javax.jcr.observation.Event.PROPERTY_CHANGED;
 import static javax.jcr.observation.Event.PROPERTY_REMOVED;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 
 public class ConcurrentCreateNodesTest extends AbstractTest {
 
@@ -148,7 +147,7 @@ public class ConcurrentCreateNodesTest extends AbstractTest {
                 time = System.currentTimeMillis() - time;
                 if (this == writer) {
                     long perSecond = numNodes * 1000 / time;
-                    println_verbose("Created " + numNodes + " in " + time + " ms. (" + perSecond + " nodes/sec)");
+                    System.out.println("Created " + numNodes + " in " + time + " ms. (" + perSecond + " nodes/sec)");
                 }
             } catch (RepositoryException e) {
                 e.printStackTrace();

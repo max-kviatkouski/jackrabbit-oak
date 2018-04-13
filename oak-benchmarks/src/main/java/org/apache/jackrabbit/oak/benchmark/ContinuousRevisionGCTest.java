@@ -27,8 +27,6 @@ import com.google.common.base.Stopwatch;
 
 import org.apache.jackrabbit.oak.spi.state.NodeStore;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * Similar to {@link RevisionGCTest} but runs continuously and performs
  * periodic RevisionGC (every 10 seconds).
@@ -46,7 +44,7 @@ public class ContinuousRevisionGCTest extends RevisionGCTest {
             Stopwatch sw = Stopwatch.createStarted();
             String result = revisionGC(nodeStore);
             sw.stop();
-            println_verbose("\nPerformed RevisionGC in " + sw + " (" + result + ")");
+            System.out.println("\nPerformed RevisionGC in " + sw + " (" + result + ")");
         }
     }
 
@@ -62,7 +60,7 @@ public class ContinuousRevisionGCTest extends RevisionGCTest {
         public void run() {
             Random rand = new Random();
             try {
-                println_verbose("Creating garbage ");
+                System.out.print("Creating garbage ");
                 for (int i = 0; ; i++) {
                     Node n = s.getRootNode().addNode("node-" + i);
                     for (int j = 0; j < 1000; j++) {
@@ -73,7 +71,7 @@ public class ContinuousRevisionGCTest extends RevisionGCTest {
                         n.remove();
                         s.save();
                     }
-                    println_verbose(".");
+                    System.out.print(".");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

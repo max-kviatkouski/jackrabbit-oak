@@ -63,7 +63,6 @@ import static org.apache.jackrabbit.JcrConstants.NT_FOLDER;
 import static org.apache.jackrabbit.JcrConstants.NT_RESOURCE;
 import static org.apache.jackrabbit.commons.JcrUtils.getOrAddNode;
 import static org.apache.jackrabbit.oak.api.Type.STRINGS;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.printf_verbose;
 import static org.apache.jackrabbit.oak.plugins.document.bundlor.BundlingConfigHandler.BUNDLOR;
 import static org.apache.jackrabbit.oak.plugins.document.bundlor.BundlingConfigHandler.DOCUMENT_NODE_STORE;
 import static org.apache.jackrabbit.oak.plugins.index.IndexConstants.DECLARING_NODE_TYPES;
@@ -217,8 +216,7 @@ public class BundlingNodeTest extends AbstractTest<BundlingNodeTest.TestContext>
 
     @Override
     protected void afterSuite() throws Exception {
-        printf_verbose("bundlingEnabled: %s, oakResourceEnabled: %s, readerEnabled: %s, bundlingMode: %s%n",
-                bundlingEnabled, oakResourceEnabled, readerEnabled, bundlingMode);
+        System.out.printf("bundlingEnabled: %s, oakResourceEnabled: %s, readerEnabled: %s, bundlingMode: %s%n", bundlingEnabled, oakResourceEnabled, readerEnabled, bundlingMode);
     }
 
     @Override

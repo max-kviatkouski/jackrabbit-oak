@@ -24,8 +24,6 @@ import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * Concurrently reads random nodes and it's properties from the deep tree.
  */
@@ -71,7 +69,7 @@ public class ConcurrentReadRandomNodeAndItsPropertiesTest extends ReadDeepTreeTe
                 }
             }
             long end = System.currentTimeMillis();
-            println_verbose("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
+            System.out.println("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
         } finally {
             if (logout) {
                 logout(testSession);

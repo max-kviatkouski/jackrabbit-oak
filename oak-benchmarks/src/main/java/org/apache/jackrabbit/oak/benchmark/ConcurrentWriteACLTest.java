@@ -31,8 +31,6 @@ import org.apache.jackrabbit.commons.jackrabbit.authorization.AccessControlUtils
 import org.apache.jackrabbit.oak.spi.security.authorization.accesscontrol.AccessControlConstants;
 import org.apache.jackrabbit.oak.spi.security.principal.EveryonePrincipal;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.printf_verbose;
-
 /**
  * Test case that traverses 10k unstructured nodes (100x100) while 50 concurrent
  * readers randomly access nodes from within this tree.
@@ -103,7 +101,7 @@ public class ConcurrentWriteACLTest extends AbstractTest {
                 session.save();
             }
         } catch (InvalidItemStateException e) {
-            printf_verbose("error: %s%n", e);
+            System.out.printf("error: %s%n", e);
             // ignore
         } finally {
             if (session != null) {

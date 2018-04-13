@@ -95,8 +95,6 @@ import org.slf4j.LoggerFactory;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.printf_verbose;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 import static org.apache.jackrabbit.oak.plugins.index.IndexConstants.DECLARING_NODE_TYPES;
 import static org.apache.jackrabbit.oak.plugins.index.IndexConstants.INDEX_DEFINITIONS_NODE_TYPE;
 import static org.apache.jackrabbit.oak.spi.nodetype.NodeTypeConstants.NT_OAK_UNSTRUCTURED;
@@ -286,11 +284,9 @@ public class HybridIndexTest extends AbstractTest<HybridIndexTest.TestContext> {
         if (indexCopierDir != null) {
             FileUtils.deleteDirectory(indexCopierDir);
         }
-        printf_verbose("numOfIndexes: %d, refreshDeltaMillis: %d, asyncInterval: %d, queueSize: %d , " +
-                        "hybridIndexEnabled: %s, indexingMode: %s, useOakCodec: %s, cleanerIntervalInSecs: %d, " +
-                        "syncIndexing: %s %n",
-                numOfIndexes, refreshDeltaMillis, asyncInterval, queueSize, hybridIndexEnabled,
-                indexingMode, useOakCodec, cleanerIntervalInSecs, syncIndexing);
+        System.out.printf("numOfIndexes: %d, refreshDeltaMillis: %d, asyncInterval: %d, queueSize: %d , " +
+                    "hybridIndexEnabled: %s, indexingMode: %s, useOakCodec: %s, cleanerIntervalInSecs: %d, " +
+                    "syncIndexing: %s %n", numOfIndexes, refreshDeltaMillis, asyncInterval, queueSize, hybridIndexEnabled, indexingMode, useOakCodec, cleanerIntervalInSecs, syncIndexing);
 
         if (dumpStats) {
             dumpStats();
@@ -416,10 +412,10 @@ public class HybridIndexTest extends AbstractTest<HybridIndexTest.TestContext> {
 
     private void dumpStats() {
         IndexStatsMBean indexStats = WhiteboardUtils.getService(whiteboard, IndexStatsMBean.class);
-        println_verbose(indexStats.getConsolidatedExecutionStats());
+        System.out.println(indexStats.getConsolidatedExecutionStats());
         String queueSize = Arrays.toString(statsProvider.getStats().getTimeSeries("HYBRID_QUEUE_SIZE", false)
                 .getValuePerSecond());
-        println_verbose("Queue size - " + queueSize);
+        System.out.println("Queue size - " + queueSize);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

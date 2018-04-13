@@ -23,8 +23,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.util.TraversingItemVisitor;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * Concurrently reads random items from the deep tree and traverses the the
  * subtree until {@code MAX_LEVEL} is reached, which is currently set to 10.
@@ -70,7 +68,7 @@ public class ConcurrentTraversalTest extends ManyUserReadTest {
                 }
             }
             long end = System.currentTimeMillis();
-            println_verbose("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
+            System.out.println("Session " + testSession.getUserID() + " reading " + (cnt-noAccess) + " (Nodes: "+ nodeCnt +"; Properties: "+propertyCnt+") completed in " + (end - start));
         } finally {
             if (logout) {
                 logout(testSession);

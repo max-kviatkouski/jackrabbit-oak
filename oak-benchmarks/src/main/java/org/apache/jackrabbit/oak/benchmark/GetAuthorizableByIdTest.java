@@ -27,8 +27,6 @@ import org.apache.jackrabbit.api.security.user.User;
 import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.jackrabbit.oak.spi.security.user.UserConstants;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 public class GetAuthorizableByIdTest extends AbstractTest {
 
     private final int numberOfUsers;
@@ -51,7 +49,7 @@ public class GetAuthorizableByIdTest extends AbstractTest {
             ids.add(id);
         }
         s.save();
-        println_verbose("Setup "+numberOfUsers+" users");
+        System.out.println("Setup "+numberOfUsers+" users");
     }
 
     @Override

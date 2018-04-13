@@ -43,8 +43,6 @@ import org.apache.jackrabbit.oak.spi.xml.ImportBehavior;
 import org.apache.jackrabbit.oak.spi.xml.ProtectedItemImporter;
 import org.apache.jackrabbit.util.Text;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * Test the performance of removing members from groups. The
  * following parameters can be used to run the benchmark:
@@ -98,7 +96,7 @@ public class RemoveMembersTest extends AbstractTest {
         } finally {
             s.logout();
         }
-        println_verbose("setup done");
+        System.out.println("setup done");
     }
 
 

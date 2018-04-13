@@ -18,8 +18,6 @@ package org.apache.jackrabbit.oak.benchmark.wikipedia;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.lang.Math.min;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.format_verbose;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -63,17 +61,16 @@ public class WikipediaImport extends Benchmark {
     @Override
     public void run(Iterable<RepositoryFixture> fixtures) {
         if (dump == null) {
-            println_verbose("Missing Wikipedia dump, skipping import benchmark.%n");
+            System.out.println("Missing Wikipedia dump, skipping import benchmark.%n");
             return;
         }
         if (!dump.isFile()) {
-            format_verbose("The Wikipedia dump at %s is not a file, skipping import benchmark.%n", dump.getPath());
+            System.out.format("The Wikipedia dump at %s is not a file, skipping import benchmark.%n", dump.getPath());
             return;
         }
         for (RepositoryFixture fixture : fixtures) {
             if (fixture.isAvailable(1)) {
-                format_verbose(
-                        "%s: Wikipedia import benchmark%n", fixture);
+                System.out.format("%s: Wikipedia import benchmark%n", fixture);
                 try {
                     Repository[] cluster = setupCluster(fixture);
                     try {
@@ -85,7 +82,7 @@ public class WikipediaImport extends Benchmark {
                     e.printStackTrace();
                 }
             } else {
-                format_verbose("%s: not available, skipping.%n", fixture);
+                System.out.format("%s: not available, skipping.%n", fixture);
             }
         }
     }
@@ -123,7 +120,7 @@ public class WikipediaImport extends Benchmark {
         int count = 0;
         int code = 0;
 
-        format_verbose("Importing %s...%n", dump);
+        System.out.format("Importing %s...%n", dump);
 
         String type = "nt:unstructured";
         if (session.getWorkspace().getNodeTypeManager().hasNodeType("oak:Unstructured")) {
@@ -193,9 +190,7 @@ public class WikipediaImport extends Benchmark {
         session.save();
 
         long millis = System.currentTimeMillis() - start;
-        format_verbose(
-                    "Imported %d pages in %d seconds (%.2fms/page)%n",
-                    count, millis / 1000, (double) millis / count);
+        System.out.format("Imported %d pages in %d seconds (%.2fms/page)%n", count, millis / 1000, (double) millis / count);
 
         return code;
     }
@@ -205,9 +200,7 @@ public class WikipediaImport extends Benchmark {
             session.save();
         }
         long millis = System.currentTimeMillis() - start;
-        format_verbose(
-            "Added %d pages in %d seconds (%.2fms/page)%n",
-            count, millis / 1000, (double) millis / count);
+        System.out.format("Added %d pages in %d seconds (%.2fms/page)%n", count, millis / 1000, (double) millis / count);
     }
 
     protected void pageAdded(String title, String text) {
@@ -220,15 +213,13 @@ public class WikipediaImport extends Benchmark {
         private int code = 0;
 
         private int traverse(Session session) throws Exception {
-            format_verbose("Traversing imported pages...%n");
+            System.out.format("Traversing imported pages...%n");
             Node wikipedia = session.getNode("/wikipedia");
 
             traverse(wikipedia);
 
             long millis = System.currentTimeMillis() - start;
-            format_verbose(
-                "Traversed %d pages in %d seconds (%.2fms/page)%n",
-                count, millis / 1000, (double) millis / count);
+            System.out.format("Traversed %d pages in %d seconds (%.2fms/page)%n", count, millis / 1000, (double) millis / count);
 
             return code;
         }
@@ -244,9 +235,7 @@ public class WikipediaImport extends Benchmark {
                 count++;
                 if (count % 1000 == 0) {
                     long millis = System.currentTimeMillis() - start;
-                    format_verbose(
-                            "Read %d pages in %d seconds (%.2fms/page)%n",
-                            count, millis / 1000, (double) millis / count);
+                    System.out.format("Read %d pages in %d seconds (%.2fms/page)%n", count, millis / 1000, (double) millis / count);
                 }
 
                 traverse(page);

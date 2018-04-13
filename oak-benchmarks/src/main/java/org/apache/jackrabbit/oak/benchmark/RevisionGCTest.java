@@ -37,10 +37,6 @@ import org.apache.jackrabbit.oak.spi.state.NodeStore;
 
 import com.google.common.base.Stopwatch;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.format_verbose;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.print_verbose;
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 /**
  * A benchmark to run RevisionGC.
  */
@@ -58,7 +54,7 @@ public class RevisionGCTest extends Benchmark {
     public void run(Iterable<RepositoryFixture> fixtures) {
         for (RepositoryFixture fixture : fixtures) {
             if (fixture.isAvailable(1)) {
-                format_verbose("%s: RevisionGC benchmark%n", fixture);
+                System.out.format("%s: RevisionGC benchmark%n", fixture);
                 try {
                     final AtomicReference<Oak> whiteboardRef = new AtomicReference<Oak>();
                     Repository[] cluster;
@@ -91,7 +87,7 @@ public class RevisionGCTest extends Benchmark {
         Session s = createSession(repository);
         Random rand = new Random();
         try {
-            print_verbose("Creating garbage ");
+            System.out.print("Creating garbage ");
             String longPathName = "0123456789";
             int depth = Integer.getInteger("RevisionGCTest.PATHDEPTH", 0);
             Node p = s.getRootNode();
@@ -100,7 +96,7 @@ public class RevisionGCTest extends Benchmark {
                 p = p.addNode(longPathName);
             }
             s.save();
-            println_verbose("Creating garbage in " + p.getPath() + " (" + p.getPath().length() + " chars)");
+            System.out.println("Creating garbage in " + p.getPath() + " (" + p.getPath().length() + " chars)");
             for (int i = 0; i < SCALE; i++) {
                 Node n = p.addNode("node-" + i);
                 for (int j = 0; j < 1000; j++) {
@@ -111,15 +107,15 @@ public class RevisionGCTest extends Benchmark {
                     n.remove();
                     s.save();
                 }
-                print_verbose(".");
+                System.out.print(".");
             }
-            println_verbose();
-            println_verbose("Running RevisionGC");
+            System.out.println();
+            System.out.println("Running RevisionGC");
             Stopwatch sw = Stopwatch.createStarted();
             String result = revisionGC(nodeStore);
             sw.stop();
-            println_verbose(result);
-            println_verbose("Performed RevisionGC in " + sw);
+            System.out.println(result);
+            System.out.println("Performed RevisionGC in " + sw);
         } finally {
             s.logout();
         }

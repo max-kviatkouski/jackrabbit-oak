@@ -29,8 +29,6 @@ import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.jackrabbit.commons.jackrabbit.authorization.AccessControlUtils;
 import org.apache.jackrabbit.oak.spi.security.privilege.PrivilegeConstants;
 
-import static org.apache.jackrabbit.oak.benchmark.util.FilterPrinter.println_verbose;
-
 public class FlatTreeWithAceForSamePrincipalTest extends AbstractTest {
 
     private static final String TEST_USER_ID = "test" + TEST_ID;
@@ -68,7 +66,7 @@ public class FlatTreeWithAceForSamePrincipalTest extends AbstractTest {
         reader = login(new SimpleCredentials(TEST_USER_ID, TEST_USER_ID.toCharArray()));
 
         long end = System.currentTimeMillis();
-        println_verbose("setup time " + (end - start));
+        System.out.println("setup time " + (end - start));
     }
 
     @Override
