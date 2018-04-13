@@ -47,7 +47,6 @@ import org.apache.jackrabbit.oak.benchmark.authentication.external.PrincipalName
 import org.apache.jackrabbit.oak.benchmark.authentication.external.SyncAllExternalUsersTest;
 import org.apache.jackrabbit.oak.benchmark.authentication.external.SyncExternalUsersTest;
 import org.apache.jackrabbit.oak.benchmark.authorization.AceCreationTest;
-import org.apache.jackrabbit.oak.benchmark.util.FilterPrinter;
 import org.apache.jackrabbit.oak.benchmark.wikipedia.WikipediaImport;
 import org.apache.jackrabbit.oak.fixture.JackrabbitRepositoryFixture;
 import org.apache.jackrabbit.oak.fixture.OakFixture;
@@ -257,8 +256,6 @@ public class BenchmarkRunner {
                         mmap.value(options), mounts.value(options), pathsPerMount.value(options)),
                 OakRepositoryFixture.getCompositeMemoryStore(mounts.value(options), pathsPerMount.value(options))
         };
-
-        FilterPrinter.setVerbose(report.value(options));
 
         Benchmark[] allBenchmarks = new Benchmark[] {
             new OrderedIndexQueryOrderedIndexTest(),
