@@ -21,7 +21,6 @@ import org.apache.commons.lang.ArrayUtils;
 
 import java.io.PrintStream;
 
-//TODO: fix csv output - compare with base revision
 public class CsvOutputStrategy implements BenchmarkOutputStrategy {
     private PrintStream out;
 
@@ -45,15 +44,14 @@ public class CsvOutputStrategy implements BenchmarkOutputStrategy {
 
     @Override
     public void printHeader(AbstractTest test) {
-        this.out.format(
+        out.format(
                 "# %-26.26s,      C,    min,    10%%,    50%%,    90%%,    max,      N%s%n",
                 test.toString(), getStatsNamesJoined(test));
     }
 
     @Override
-    //TODO: add comment to stats array here and in Prettyprint and Machine-readable strategy
     public void printStats(AbstractTest test) {
         String concatenatedFormat = Joiner.on(',').skipNulls().join("%-28.28s, %6d, %6.0f, %6.0f, %6.0f, %6.0f, %6.0f, %6d", getStatsFormatsJoined(test), "%n");
-        this.out.format(concatenatedFormat, test.statsValues());
+        out.format(concatenatedFormat, ArrayUtils.add(test.statsValues(), test.comment()));
     }
 }

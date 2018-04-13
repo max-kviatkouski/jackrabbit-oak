@@ -19,11 +19,19 @@ package org.apache.jackrabbit.oak.benchmark;
 import com.google.common.base.Joiner;
 import org.apache.commons.lang.ArrayUtils;
 
+import java.io.PrintStream;
+
 public class PrettyPrintConsoleStrategy implements BenchmarkOutputStrategy {
+
+    private final PrintStream out;
+
+    public PrettyPrintConsoleStrategy(PrintStream out) {
+        this.out = out;
+    }
 
     @Override
     public void printHeader(AbstractTest test) {
-        System.out.format(
+        out.format(
                 "# %-26.26s       C     min     10%%     50%%     90%%     max       N%s%n",
                 test.toString(), getStatsNamesJoined(test));
     }
@@ -44,8 +52,8 @@ public class PrettyPrintConsoleStrategy implements BenchmarkOutputStrategy {
 
     @Override
     public void printStats(AbstractTest test) {
-        System.out.format(
+        out.format(
                 "%-28.28s  %6d  %6.0f  %6.0f  %6.0f  %6.0f  %6.0f  %6d"+getStatsFormatsJoined(test)+"%n",
-                test.statsValues());
+                ArrayUtils.add(test.statsValues(), test.comment()));
     }
 }

@@ -92,7 +92,7 @@ public abstract class AbstractTest<T> extends Benchmark implements CSVResultGene
 
     private RepositoryFixture currentFixture;
 
-    private BenchmarkOutputStrategy outputStrategy = new PrettyPrintConsoleStrategy(this);
+    private BenchmarkOutputStrategy outputStrategy;
     private BenchmarkOutputStrategy csvStrategy = null;
 
     /**

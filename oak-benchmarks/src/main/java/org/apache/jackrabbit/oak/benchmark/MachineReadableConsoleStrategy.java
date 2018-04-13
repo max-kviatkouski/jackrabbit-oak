@@ -19,10 +19,16 @@ package org.apache.jackrabbit.oak.benchmark;
 import com.google.common.base.Joiner;
 import org.apache.commons.lang.ArrayUtils;
 
+import java.io.PrintStream;
 import java.util.Formatter;
 
 public class MachineReadableConsoleStrategy implements BenchmarkOutputStrategy {
     private final static String COMMENT_PATTERN = "#%s";
+    private final PrintStream out;
+
+    public MachineReadableConsoleStrategy(PrintStream out) {
+        this.out = out;
+    }
 
     @Override
     public void printHeader(AbstractTest test) {}
@@ -42,7 +48,9 @@ public class MachineReadableConsoleStrategy implements BenchmarkOutputStrategy {
         String concatenatedFormat = Joiner.on(",").skipNulls().join("%s,%s,%d,%.0f,%.0f,%.0f,%.0f,%.0f,%d", getStatsFormatsJoined(test));
         StringBuilder sb = new StringBuilder();
         Formatter formatter = new Formatter(sb);
-        formatter.format(concatenatedFormat, ArrayUtils.addAll(new Object[]{test.toString()}, test.statsValues()));
-        System.out.println(sb.toString().replaceAll(", *", ","));
+        Object[] allStats = ArrayUtils.addAll(new Object[]{test.toString()}, test.statsValues());
+        allStats = ArrayUtils.addAll(allStats, new Object[]{test.comment()});
+        formatter.format(concatenatedFormat, allStats);
+        out.println(sb.toString().replaceAll(", *", ","));
     }
 }

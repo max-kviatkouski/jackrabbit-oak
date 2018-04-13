@@ -41,6 +41,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.output.NullOutputStream;
 import org.apache.jackrabbit.oak.benchmark.authentication.external.ExternalLoginTest;
 import org.apache.jackrabbit.oak.benchmark.authentication.external.ListIdentitiesTest;
 import org.apache.jackrabbit.oak.benchmark.authentication.external.PrincipalNameResolutionTest;
@@ -59,6 +60,8 @@ import org.apache.jackrabbit.oak.stats.StatisticsProvider;
 public class BenchmarkRunner {
 
     private static final int MB = 1024 * 1024;
+
+    private static PrintStream stdOut = System.out;
 
     public static void main(String[] args) throws Exception {
         OptionParser parser = new OptionParser();
@@ -207,6 +210,10 @@ public class BenchmarkRunner {
         if(options.has(help)){
             parser.printHelpOn(System.out);
             System.exit(0);
+        }
+
+        if (!report.value(options)) {
+            System.setOut(new PrintStream(NullOutputStream.NULL_OUTPUT_STREAM));
         }
 
         String uri = mongouri.value(options);
@@ -525,9 +532,9 @@ public class BenchmarkRunner {
                 outputStrategy.addStrategy(new CsvOutputStrategy(out));
             }
             if (consoleFormat.value(options).equalsIgnoreCase("prettyprint")) {
-                outputStrategy.addStrategy(new PrettyPrintConsoleStrategy());
+                outputStrategy.addStrategy(new PrettyPrintConsoleStrategy(stdOut));
             } else if (consoleFormat.value(options).equalsIgnoreCase("machine-readable")){
-                outputStrategy.addStrategy(new MachineReadableConsoleStrategy());
+                outputStrategy.addStrategy(new MachineReadableConsoleStrategy(stdOut));
             }
             for (Benchmark benchmark : benchmarks) {
                 if (benchmark instanceof AbstractTest) {
