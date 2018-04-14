@@ -49,6 +49,7 @@ import org.apache.jackrabbit.oak.benchmark.authentication.external.SyncAllExtern
 import org.apache.jackrabbit.oak.benchmark.authentication.external.SyncExternalUsersTest;
 import org.apache.jackrabbit.oak.benchmark.authorization.AceCreationTest;
 import org.apache.jackrabbit.oak.benchmark.wikipedia.WikipediaImport;
+import org.apache.jackrabbit.oak.benchmark.CompositeBenchmarkOutputStrategy;
 import org.apache.jackrabbit.oak.fixture.JackrabbitRepositoryFixture;
 import org.apache.jackrabbit.oak.fixture.OakFixture;
 import org.apache.jackrabbit.oak.fixture.OakRepositoryFixture;
